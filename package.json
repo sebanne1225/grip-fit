@@ -1,0 +1,14 @@
+{
+  "name": "{{package-id}}",
+  "displayName": "{{ToolName}}",
+  "version": "0.1.0",
+  "unity": "2022.3",
+  "description": "{{description}}",
+  "documentationUrl": "https://github.com/sebanne1225/{{repo-name}}/blob/main/README.md",
+  "changelogUrl": "https://github.com/sebanne1225/{{repo-name}}/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/sebanne1225/{{repo-name}}/blob/main/LICENSE",
+  "url": "https://github.com/sebanne1225/{{repo-name}}",
+  "author": {
+    "name": "sebanne"
+  }
+}
