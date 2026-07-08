@@ -1,6 +1,8 @@
 {
   "name": "Sebanne.GripFit",
-  "references": [],
+  "references": [
+    "nadena.dev.modular-avatar.core"
+  ],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

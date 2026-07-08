@@ -36,7 +36,7 @@
 ## 使い方
 
 1. 位置を合わせたいギミック側 GameObject に `Modular Avatar Bone Proxy`（attachmentMode: Keep World Pose）を設定します
-2. 同じ GameObject に `Grip Fit Offset` コンポーネントを追加します
+2. 同じ GameObject に `Grip Fit Offset` コンポーネントを追加します（`Modular Avatar Bone Proxy` が同じ GameObject に無い場合は、誤操作防止のため `Grip Fit Offset` は自動的に取り除かれます）
 3. Play Mode に入り、Gesture Manager 等でジェスチャーを再現しながら Bone Proxy 先を動かして位置を合わせます
 4. Inspector の「現在の姿勢を記録」ボタンを押します（複数ギミックがある場合はそれぞれで押せます）
 5. Play Mode を終了します（記録した姿勢が自動的に確定します）
