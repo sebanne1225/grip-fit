@@ -1,7 +1,7 @@
 {
   "name": "com.sebanne.grip-fit",
   "displayName": "Grip Fit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "unity": "2022.3",
   "description": "握り拳などのハンドジェスチャー状態での持ち物 Transform 位置合わせを非破壊で保存するツール",
   "documentationUrl": "https://github.com/sebanne1225/grip-fit/blob/main/README.md",
