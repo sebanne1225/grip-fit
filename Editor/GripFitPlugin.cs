@@ -1,6 +1,5 @@
 using nadena.dev.ndmf;
 using Sebanne.GripFit;
-using UnityEngine;
 
 [assembly: ExportsPlugin(typeof(Sebanne.GripFit.Editor.GripFitPlugin))]
 
@@ -26,13 +25,9 @@ namespace Sebanne.GripFit.Editor
                             t.localRotation = offset.OffsetRotation;
                         }
 
-                        // 実アップロードビルドでは VRCSDK の非ホワイトリスト検証を避けるため除去する。
-                        // Play Mode（ApplyOnPlay）では記録のため残す。isPlayingOrWillChangePlaymode は
-                        // Play 遷移中も true（NDMF の RuntimeUtil.IsPlaying と同一実装）。
-                        if (!UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
-                        {
-                            Object.DestroyImmediate(offset);
-                        }
+                        // component の除去は不要。GripFitOffset は INDMFEditorOnly なので、実ビルド／Play とも
+                        // MA の ReplacementRemoveIEditorOnly（callbackOrder=MaxValue = 最後）が除去する。
+                        // 本パスはそれより前に走るため offset を適用するだけでよい。
                     }
                 });
         }

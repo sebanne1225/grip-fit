@@ -1,6 +1,7 @@
 using System.Linq;
 using Sebanne.GripFit;
 using UnityEditor;
+using UnityEngine;
 
 namespace Sebanne.GripFit.Editor
 {
@@ -8,33 +9,34 @@ namespace Sebanne.GripFit.Editor
     {
         private const string PendingSessionKey = "GripFit.PendingRecords";
 
-        public static void RecordCurrentPose(GripFitOffset target)
+        // Play 中は GripFitOffset が INDMFEditorOnly として strip されるため、記録は残る GameObject を
+        // キーにする（targetInstanceId = GameObject の InstanceID）。値は BoneProxy 配下の live localPose。
+        public static void RecordPose(int gameObjectInstanceId, Vector3 position, Quaternion rotation)
         {
             var list = LoadPendingList();
-            var existing = list.records.FirstOrDefault(r => r.targetInstanceId == target.GetInstanceID());
-            var transform = target.transform;
+            var existing = list.records.FirstOrDefault(r => r.targetInstanceId == gameObjectInstanceId);
 
             if (existing != null)
             {
-                existing.position = transform.localPosition;
-                existing.rotation = transform.localRotation;
+                existing.position = position;
+                existing.rotation = rotation;
             }
             else
             {
                 list.records.Add(new GripFitPendingRecord
                 {
-                    targetInstanceId = target.GetInstanceID(),
-                    position = transform.localPosition,
-                    rotation = transform.localRotation,
+                    targetInstanceId = gameObjectInstanceId,
+                    position = position,
+                    rotation = rotation,
                 });
             }
 
             SavePendingList(list);
         }
 
-        public static bool HasPendingRecord(GripFitOffset target)
+        public static bool HasPendingRecord(int gameObjectInstanceId)
         {
-            return LoadPendingList().records.Any(r => r.targetInstanceId == target.GetInstanceID());
+            return LoadPendingList().records.Any(r => r.targetInstanceId == gameObjectInstanceId);
         }
 
         internal static GripFitPendingList LoadPendingList()
@@ -45,12 +47,12 @@ namespace Sebanne.GripFit.Editor
                 return new GripFitPendingList();
             }
 
-            return UnityEngine.JsonUtility.FromJson<GripFitPendingList>(json) ?? new GripFitPendingList();
+            return JsonUtility.FromJson<GripFitPendingList>(json) ?? new GripFitPendingList();
         }
 
         internal static void SavePendingList(GripFitPendingList list)
         {
-            SessionState.SetString(PendingSessionKey, UnityEngine.JsonUtility.ToJson(list));
+            SessionState.SetString(PendingSessionKey, JsonUtility.ToJson(list));
         }
 
         internal static void ClearPendingList()
@@ -82,7 +84,15 @@ namespace Sebanne.GripFit.Editor
 
             foreach (var record in list.records)
             {
-                if (!(EditorUtility.InstanceIDToObject(record.targetInstanceId) is GripFitOffset offset))
+                // targetInstanceId = GameObject の InstanceID（Play 出入りで保持）→ Edit Mode で復元された
+                // GripFitOffset へ確定する。
+                if (!(EditorUtility.InstanceIDToObject(record.targetInstanceId) is GameObject go))
+                {
+                    continue;
+                }
+
+                var offset = go.GetComponent<GripFitOffset>();
+                if (offset == null)
                 {
                     continue;
                 }

@@ -13,21 +13,10 @@ namespace Sebanne.GripFit.Editor
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
-            using (new EditorGUI.DisabledScope(!EditorApplication.isPlaying))
+            EditorGUILayout.LabelField("記録は「Grip Fit 記録」ウィンドウから行います。", EditorStyles.miniLabel);
+            if (GUILayout.Button("記録ウィンドウを開く"))
             {
-                if (GUILayout.Button("現在の姿勢を記録"))
-                {
-                    GripFitRecorder.RecordCurrentPose(offset);
-                }
-            }
-
-            if (!EditorApplication.isPlaying)
-            {
-                EditorGUILayout.LabelField("Play Mode 中のみ記録できます", EditorStyles.miniLabel);
-            }
-            else if (GripFitRecorder.HasPendingRecord(offset))
-            {
-                EditorGUILayout.LabelField("記録済み（Play Mode 終了時に確定されます）", EditorStyles.miniLabel);
+                GripFitRecorderWindow.Open();
             }
 
             if (offset.HasRecordedValue)
@@ -35,6 +24,10 @@ namespace Sebanne.GripFit.Editor
                 EditorGUILayout.LabelField(
                     $"確定済み: pos {offset.OffsetPosition:F4} / rot {offset.OffsetRotation.eulerAngles:F1}",
                     EditorStyles.miniLabel);
+            }
+            else
+            {
+                EditorGUILayout.LabelField("未記録", EditorStyles.miniLabel);
             }
 
             EditorGUILayout.EndVertical();
