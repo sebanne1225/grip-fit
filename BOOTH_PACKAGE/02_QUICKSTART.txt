@@ -1,10 +1,14 @@
-{{ToolName}}
+Grip Fit
 クイックスタート
 
 最短手順:
-（ツール固有の手順をここに書く。3〜6 ステップ程度）
+1. 位置を合わせたいギミック側 GameObject に Modular Avatar Bone Proxy（Keep World Pose）を設定
+2. 同じ GameObject に Grip Fit Offset コンポーネントを追加
+3. Play Mode に入り、ジェスチャーを再現しながら Bone Proxy 先を動かして位置を合わせる
+4. Inspector の「現在の姿勢を記録」ボタンを押す
+5. Play Mode を終了する（自動的に確定します）
 
 補足:
 - このツールは非破壊で動作し、元のアバターには直接変更を加えません
-- （ツール固有の補足をここに追加する）
+- 複数のギミックがある場合は、それぞれで手順3〜4を行ってから Play Mode を終了してください
 - 詳しい制限事項は README を確認してください
