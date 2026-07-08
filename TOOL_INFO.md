@@ -9,7 +9,7 @@
 - 表示名: `Grip Fit`
 - Runtime asmdef: `Sebanne.GripFit`
 - Editor asmdef: `Sebanne.GripFit.Editor`
-- 現在 version: `0.1.1`
+- 現在 version: `0.1.2`
 
 ## 公開メタ情報
 
