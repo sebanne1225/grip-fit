@@ -27,8 +27,9 @@ namespace Sebanne.GripFit.Editor
                         }
 
                         // 実アップロードビルドでは VRCSDK の非ホワイトリスト検証を避けるため除去する。
-                        // Play Mode（ApplyOnPlay）では記録のため残す（RuntimeUtil.IsPlaying は Play 遷移中も true）。
-                        if (!RuntimeUtil.IsPlaying)
+                        // Play Mode（ApplyOnPlay）では記録のため残す。isPlayingOrWillChangePlaymode は
+                        // Play 遷移中も true（NDMF の RuntimeUtil.IsPlaying と同一実装）。
+                        if (!UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
                         {
                             Object.DestroyImmediate(offset);
                         }
